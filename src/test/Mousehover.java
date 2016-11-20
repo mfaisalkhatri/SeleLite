@@ -1,51 +1,45 @@
-package test;
-
-import java.awt.Desktop.Action;
-import java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
-import java.util.concurrent.TimeUnit;
+package Practice;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
-public class Mousehover {
+public class MouseHover{
+
+	WebDriver driver;
+	public String baseurl = "http://www.seleniumframework.com/Practiceform/";
 	
-	public WebDriver driver;
-	public String baseurl = "http://www.store.demoqa.com/";
-	
-			@BeforeSuite
-			public void initial () {
-			driver = new FirefoxDriver ();
-			
-	}
 	
 	@Test
-	public void hovertest() {
-			driver.get(baseurl);
-			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			Actions action = new Actions(driver);	
-			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-			
-			WebElement form = driver.findElement(By.cssSelector("#menu-item-33>a"));
-			
-			action.moveToElement (form).build().perform();
-			driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-			WebElement menu = driver.findElement(By.linkText("iPads"));
-			action.click(menu).build().perform();
-			
-			
-			System.out.println("CLicked Successful");
+	public void MousehoverTest () throws InterruptedException {
+		
+		driver = new FirefoxDriver();
+		driver.get(baseurl);
+		/*WebElement dragMe = driver.findElement(By.id("draga"));
+		WebElement dragTo = driver.findElement(By.id("dragb"));*/
+		WebElement TutLink = driver.findElement(By.linkText("TUTORIALS"));
+		Actions action = new Actions (driver);
+		action.moveToElement(TutLink).perform();
+		WebDriverWait wait= new WebDriverWait(driver,5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[@id='main-nav']/li[2]/ul/li[1]/a/span")));
+		 
+		WebElement Strg =  driver.findElement(By.xpath(".//*[@id='main-nav']/li[2]/ul/li[1]/a/span"));
+		action.moveToElement(Strg).click().build().perform();
+		String title = driver.getTitle();
+		System.out.println(title);
+		
+		//action.moveToElement(dragTo).perform();
+	
+
+		
+		driver.quit();
+	}
+	
 	
 	}
-
-			@AfterSuite
-			public void closetest() {
-				driver.quit();
-}
-}
